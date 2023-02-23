@@ -1,0 +1,64 @@
+import React from 'react'
+import EastIcon from '@mui/icons-material/East';
+import WestIcon from '@mui/icons-material/West';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/effect-fade";
+// import required modules
+import { Navigation, EffectFade, Autoplay } from "swiper";
+import Review_card from './Review_card';
+import { useRef } from 'react';
+import { useCallback } from 'react';
+
+
+function Review_slider() {
+
+    // ----custome button function----
+    const sliderRef = useRef(null);
+
+    const SwiperhandlePrev = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slidePrev();
+    }, []);
+
+    const SwiperhandleNext = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slideNext();
+    }, []);
+    
+    // ----//custome button function----
+
+
+
+    return (
+        <>
+            <Swiper navigation={false} modules={[Navigation, Autoplay]} loop={true} autoplay={{
+                delay: 3000,
+                disableOnInteraction: true,
+            }}
+                className="mySwiper home_page_review_slider" ref={sliderRef} >
+                {reviewsArray && reviewsArray.map((e) => {
+                    return (
+
+                        <SwiperSlide>
+                            <Review_card img={e.img} name={e.name} text={e.text} />
+                        </SwiperSlide>
+
+                    )
+                })}
+                
+                -------customw button--------
+                <div className="review_swiper_custom_button">
+                    <button onClick={SwiperhandlePrev}><WestIcon /></button>
+                    <button onClick={SwiperhandleNext}><EastIcon /></button>
+                </div>
+                -------//customw button--------
+            </Swiper>
+        </>
+    )
+}
+
+export default Review_slider
